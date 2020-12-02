@@ -16,8 +16,8 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/headzoo/surf/errors"
-	"github.com/headzoo/surf/jar"
+	"github.com/ramiayoub-priv/surf/errors"
+	"github.com/ramiayoub-priv/surf/jar"
 )
 
 // Attribute represents a Browser capability.
@@ -186,7 +186,7 @@ type Browsable interface {
 	Find(expr string) *goquery.Selection
 
 	// Create a new Browser instance and inherit the configuration
-	// Read more: https://github.com/headzoo/surf/issues/23
+	// Read more: https://github.com/ramiayoub-priv/surf/issues/23
 	NewTab() (b *Browser)
 }
 

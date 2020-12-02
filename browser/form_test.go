@@ -15,8 +15,8 @@ import (
 
 	"io/ioutil"
 
-	surferrors "github.com/headzoo/surf/errors"
-	"github.com/headzoo/surf/jar"
+	surferrors "github.com/ramiayoub-priv/surf/errors"
+	"github.com/ramiayoub-priv/surf/jar"
 	"github.com/headzoo/ut"
 )
 
