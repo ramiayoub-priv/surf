@@ -236,13 +236,13 @@ func (bow *Browser) Open(u string) error {
 	return bow.httpGET(ur, nil)
 }
 
-func (bow *Browser) MakeHttpGetReturnRawResponse(u string) (*http.Response,error) {
+func (bow *Browser) MakeHttpGetReturnRawResponse(u string) (*http.Response, error) {
 	ur, err := url.Parse(u)
 	if err != nil {
-		return [],err
+		return nil, err
 	}
 
-	return bow.httpRequestReturnResponse(ur)
+	return bow.httpGETRawResponse(ur, nil)
 
 }
 
@@ -715,17 +715,23 @@ func (bow *Browser) httpPOST(u *url.URL, ref *url.URL, contentType string, body 
 	return bow.httpRequest(req)
 }
 
-func (bow *Browser) httpRequestReturnResponse(req *http.Request) (*http.Response, error) {
+func (bow *Browser) httpGETRawResponse(u *url.URL, ref *url.URL) (*http.Response, error) {
 	if bow.client == nil {
 		bow.client = bow.buildClient()
 	}
 	bow.preSend()
-	resp, err := bow.client.Do(req)
+
+	req, err := bow.buildRequest("GET", u.String(), ref, nil)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return resp,err
+	resp, err := bow.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, err
 }
 
 // send uses the given *http.Request to make an HTTP request.
