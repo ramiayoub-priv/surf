@@ -101,6 +101,9 @@ type Browsable interface {
 	// Open requests the given URL using the GET method.
 	Open(url string) error
 
+	// MakeHttpGetReturnRawResponse requests the given URL using te GET method and returns the response body as a byte array
+	MakeHttpGetReturnRawResponse(url string) ([]byte, error)
+
 	// Open requests the given URL using the HEAD method.
 	Head(url string) error
 
@@ -231,6 +234,16 @@ func (bow *Browser) Open(u string) error {
 		return err
 	}
 	return bow.httpGET(ur, nil)
+}
+
+func (bow *Browser) MakeHttpGetReturnRawResponse(u string) (*http.Response,error) {
+	ur, err := url.Parse(u)
+	if err != nil {
+		return [],err
+	}
+
+	return bow.httpRequestReturnResponse(ur)
+
 }
 
 // Head requests the given URL using the HEAD method.
@@ -700,6 +713,19 @@ func (bow *Browser) httpPOST(u *url.URL, ref *url.URL, contentType string, body 
 	req.Header.Set("Content-Type", contentType)
 
 	return bow.httpRequest(req)
+}
+
+func (bow *Browser) httpRequestReturnResponse(req *http.Request) (*http.Response, error) {
+	if bow.client == nil {
+		bow.client = bow.buildClient()
+	}
+	bow.preSend()
+	resp, err := bow.client.Do(req)
+	if err != nil {
+		return err
+	}
+
+	return resp,err
 }
 
 // send uses the given *http.Request to make an HTTP request.
