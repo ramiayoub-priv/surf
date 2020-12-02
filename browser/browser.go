@@ -102,7 +102,7 @@ type Browsable interface {
 	Open(url string) error
 
 	// MakeHttpGetReturnRawResponse requests the given URL using te GET method and returns the response body as a byte array
-	MakeHttpGetReturnRawResponse(url string) ([]byte, error)
+	MakeHttpGetReturnRawResponse(url string) (*http.Response, error)
 
 	// Open requests the given URL using the HEAD method.
 	Head(url string) error
